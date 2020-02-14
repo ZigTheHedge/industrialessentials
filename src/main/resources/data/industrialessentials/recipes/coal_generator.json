@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aba",
+    "cdc",
+    " e "
+  ],
+  "key": {
+    "a": {
+      "item": "industrialessentials:heat_sink"
+    },
+    "b": {
+      "item": "industrialessentials:boiler_part"
+    },
+    "c": {
+      "item": "industrialessentials:energy_connector_part"
+    },
+    "d": {
+      "item": "industrialessentials:chassis"
+    },
+    "e": {
+      "item": "industrialessentials:generator_part"
+    }
+  },
+  "result": {
+    "item": "industrialessentials:coal_generator"
+  }
+}

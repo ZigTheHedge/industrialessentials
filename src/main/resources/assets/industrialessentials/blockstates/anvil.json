@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,hammer_present=true": { "model": "industrialessentials:block/anvil" },
+    "facing=north,hammer_present=false": { "model": "industrialessentials:block/anvil_nohammer" },
+    "facing=south,hammer_present=true": { "model": "industrialessentials:block/anvil", "y": 180 },
+    "facing=south,hammer_present=false": { "model": "industrialessentials:block/anvil_nohammer", "y": 180 },
+    "facing=west,hammer_present=true": { "model": "industrialessentials:block/anvil", "y": 270 },
+    "facing=west,hammer_present=false": { "model": "industrialessentials:block/anvil_nohammer", "y": 270 },
+    "facing=east,hammer_present=true": { "model": "industrialessentials:block/anvil", "y": 90 },
+    "facing=east,hammer_present=false": { "model": "industrialessentials:block/anvil_nohammer", "y": 90 }
+  }
+}

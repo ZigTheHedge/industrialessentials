@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "aba",
+    "   "
+  ],
+  "key": {
+    "a": {
+      "tag": "forge:gems/diamond"
+    },
+    "b": {
+      "item": "industrialessentials:hammer_part"
+    }
+  },
+  "result": {
+    "item": "industrialessentials:hammer_diamond_part"
+  }
+}

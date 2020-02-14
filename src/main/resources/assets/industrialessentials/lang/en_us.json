@@ -1,0 +1,35 @@
+{
+  "item.industrialessentials.iron_ore_dust": "Iron Dust",
+  "item.industrialessentials.gold_ore_dust": "Gold Dust",
+  "item.industrialessentials.silver_ore_dust": "Silver Dust",
+  "item.industrialessentials.lead_ore_dust": "Lead Dust",
+  "item.industrialessentials.copper_ore_dust": "Copper Dust",
+  "item.industrialessentials.tin_ore_dust": "Tin Dust",
+  "item.industrialessentials.bronze_ore_dust": "Bronze Dust",
+  "item.industrialessentials.electrum_ore_dust": "Electrum Dust",
+
+  "item.industrialessentials.silver_ingot": "Silver Ingot",
+  "item.industrialessentials.lead_ingot": "Lead Ingot",
+  "item.industrialessentials.copper_ingot": "Copper Ingot",
+  "item.industrialessentials.tin_ingot": "Tin Ingot",
+  "item.industrialessentials.bronze_ingot": "Bronze Ingot",
+  "item.industrialessentials.electrum_ingot": "Electrum Ingot",
+
+  "item.industrialessentials.chassis": "Machine Chassis",
+  "item.industrialessentials.energy_connector_part": "Energy Connector",
+  "item.industrialessentials.heat_sink": "Heat Sink",
+  "item.industrialessentials.boiler_part": "Boiler Module",
+  "item.industrialessentials.generator_part": "Generator Module",
+  "item.industrialessentials.redstone_part": "Redstone Module",
+  "item.industrialessentials.hammer_part": "Hammer",
+  "item.industrialessentials.hammer_diamond_part": "Diamond Inlaid Hammer",
+
+  "block.industrialessentials.silver_ore": "Silver Ore",
+  "block.industrialessentials.lead_ore": "Lead Ore",
+  "block.industrialessentials.copper_ore": "Copper Ore",
+  "block.industrialessentials.tin_ore": "Tin Ore",
+  "block.industrialessentials.coal_generator": "Coal Generator",
+  "block.industrialessentials.anvil": "Anvil",
+
+  "itemGroup.industrialessentials": "Industrial Essentials"
+}

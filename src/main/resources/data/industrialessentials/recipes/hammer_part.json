@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aba",
+    " c ",
+    " c "
+  ],
+  "key": {
+    "a": {
+      "tag": "forge:ingots/iron"
+    },
+    "b": {
+      "item": "iron_block"
+    },
+    "c": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "industrialessentials:hammer_part"
+  }
+}

@@ -1,0 +1,6 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)" #mandatory (26 is current forge version)
+[[mods]] #mandatory
+modId="industrialessentials" #mandatory
+version="0.1" #mandatory
+displayName="Industrial Essentials" #mandatory
