@@ -4,11 +4,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
 public class AnvilRecipe {
-    public int hits;
+    public String hits;
     public ItemStack output;
     public Ingredient input;
 
-    public AnvilRecipe(int hits, ItemStack output, Ingredient input)
+    public AnvilRecipe(String hits, ItemStack output, Ingredient input)
     {
         this.hits = hits;
         this.output = output;

@@ -3,20 +3,28 @@ package com.cwelth.industrialessentials.tileentities;
 import com.cwelth.industrialessentials.blocks.Anvil;
 import com.cwelth.industrialessentials.inits.IEContent;
 import com.cwelth.industrialessentials.inits.InitCommon;
+import com.cwelth.industrialessentials.networking.AnvilSync;
+import com.cwelth.industrialessentials.networking.NetworkingSetup;
 import com.cwelth.industrialessentials.recipes.AnvilRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
+import javax.management.remote.rmi._RMIConnection_Stub;
 
 public class AnvilTE extends TileEntity {
     private ItemStack containedItem = ItemStack.EMPTY;
     private int currentHits = 0;
     private ItemStack resultStack = ItemStack.EMPTY;
-    private int targetHits = 0;
+    private String recipe = "";
+    public boolean clientOnLookAt = false;
 
     public AnvilTE() {
         super(IEContent.ANVIL_TE.get());
@@ -27,7 +35,8 @@ public class AnvilTE extends TileEntity {
         if(compound.contains("containedItem"))containedItem = ItemStack.read(compound.getCompound("containedItem"));
         if(compound.contains("currentHits"))currentHits = compound.getInt("currentHits");
         if(compound.contains("resultStack"))resultStack = ItemStack.read(compound.getCompound("resultStack"));
-        if(compound.contains("targetHits"))targetHits = compound.getInt("targetHits");
+        if(compound.contains("recipe"))recipe = compound.getString("recipe");
+        if(compound.contains("clientOnLookAt"))clientOnLookAt = compound.getBoolean("clientOnLookAt");
         super.read(compound);
     }
 
@@ -36,7 +45,8 @@ public class AnvilTE extends TileEntity {
         compound.put("containedItem", containedItem.serializeNBT());
         compound.putInt("currentHits", currentHits);
         compound.put("resultStack", resultStack.serializeNBT());
-        compound.putInt("targetHits", targetHits);
+        compound.putString("recipe", recipe);
+        compound.putBoolean("clientOnLookAt", clientOnLookAt);
         return super.write(compound);
     }
 
@@ -50,23 +60,26 @@ public class AnvilTE extends TileEntity {
         return containedItem;
     }
 
-    public String getProgress()
+    public void setCurrentHits(int currentHits)
     {
-        if(targetHits == 0)return " no valid recipe found.";
-        int maxLength = 20;
-        int progress = currentHits * 100 / targetHits;
-        int curLength = progress * 20 / 100;
-        String retStr = "[";
-        for(int i = 0; i < maxLength; i++)
-        {
-            if(i <= curLength)retStr += "#";
-            else retStr += " ";
-        }
-        retStr += "] " + currentHits + "/" + targetHits;
-        return retStr;
+        this.currentHits = currentHits;
+        markDirty();
     }
 
+    public boolean hasValidRecipe()
+    {
+        return !resultStack.isEmpty();
+    }
 
+    public String getRecipe()
+    {
+        return recipe;
+    }
+
+    public int getCurrentHits()
+    {
+        return currentHits;
+    }
 
     public ItemStack interact(ItemStack itemStack)
     {
@@ -78,7 +91,8 @@ public class AnvilTE extends TileEntity {
                 if(isHammerPresent())
                     getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).with(Anvil.HAMMER_PRESENT, false), 2);
                 containedItem = ItemStack.EMPTY;
-                currentHits = targetHits = 0;
+                currentHits = 0;
+                recipe = "";
                 resultStack = ItemStack.EMPTY;
                 markDirty();
                 world.notifyBlockUpdate(getPos(), getBlockState(), getBlockState(), 2);
@@ -90,7 +104,8 @@ public class AnvilTE extends TileEntity {
                     {
                         itemStack.grow(containedItem.getCount());
                         containedItem = ItemStack.EMPTY;
-                        currentHits = targetHits = 0;
+                        currentHits = 0;
+                        recipe = "";
                         resultStack = ItemStack.EMPTY;
                         markDirty();
                         world.notifyBlockUpdate(getPos(), getBlockState(), getBlockState(), 2);
@@ -110,6 +125,17 @@ public class AnvilTE extends TileEntity {
                 markDirty();
                 if(isHammerPresent())
                     getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).with(Anvil.HAMMER_PRESENT, true), 2);
+                else
+                {
+                    AnvilRecipe recipe = InitCommon.anvilRecipes.getMatchedRecipe(containedItem);
+                    if(recipe != null)
+                    {
+                        this.recipe = recipe.hits;
+                        currentHits = 0;
+                        resultStack = recipe.output.copy();
+                        markDirty();
+                    }
+                }
                 itemStack.shrink(1);
                 world.notifyBlockUpdate(getPos(), getBlockState(), getBlockState(), 2);
                 return itemStack;
@@ -117,34 +143,36 @@ public class AnvilTE extends TileEntity {
         }
     }
 
-    public void bash()
+    public void bash(Hand hand)
     {
         if(!containedItem.isEmpty())
         {
             if(!isHammerPresent())
             {
                 //Process recipe
-                if(currentHits == 0)
-                {
-                    AnvilRecipe recipe = InitCommon.anvilRecipes.getMatchedRecipe(containedItem);
-                    if(recipe != null)
-                    {
-                        targetHits = recipe.hits;
-                        resultStack = recipe.output.copy();
-                        markDirty();
-                    }
-                }
                 if(!resultStack.isEmpty())
                 {
-                    currentHits++;
-                    if(currentHits > targetHits)
+                    if(recipe.charAt(currentHits) == 'R' && hand == Hand.OFF_HAND || recipe.charAt(currentHits) == 'L' && hand == Hand.MAIN_HAND) {
+                        currentHits++;
+                        if(hand == Hand.OFF_HAND)
+                            world.playSound(null, getPos(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat()*.1F + 0.6F);
+                        else
+                            world.playSound(null, getPos(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.BLOCKS, 1.0F, world.rand.nextFloat()*.1F + 0.8F);
+                    }
+                    else {
+                        currentHits = 0;
+                        world.playSound(null, getPos(), SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 1.0F, 0.6F);
+                    }
+                    if(currentHits == recipe.length())
                     {
                         containedItem = resultStack.copy();
                         resultStack = ItemStack.EMPTY;
-                        currentHits = targetHits = 0;
+                        currentHits = 0;
+                        recipe = "";
                         world.notifyBlockUpdate(getPos(), getBlockState(), getBlockState(), 2);
                     }
                     markDirty();
+                    NetworkingSetup.INSTANCE.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(getPos().getX(), getPos().getY(), getPos().getZ(), 16D, world.getDimension().getType())), new AnvilSync(currentHits, getPos()));
                 }
             }
         }
@@ -164,4 +192,15 @@ public class AnvilTE extends TileEntity {
     }
 
 
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT nbtTag = new CompoundNBT();
+        nbtTag = write(nbtTag);
+        return nbtTag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundNBT tag) {
+        read(tag);
+    }
 }

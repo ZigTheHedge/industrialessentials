@@ -15,5 +15,17 @@ public class NetworkingSetup {
 
     public static void registerMessages() {
         INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(IndustrialEssentials.MODID, "industrialessentials"), () -> "1.0", s -> true, s -> true);
+
+        INSTANCE.registerMessage(nextID(),
+                AnvilSync.class,
+                AnvilSync::toBytes,
+                AnvilSync::new,
+                AnvilSync::handle);
+
+        INSTANCE.registerMessage(nextID(),
+                AnvilHoverSync.class,
+                AnvilHoverSync::toBytes,
+                AnvilHoverSync::new,
+                AnvilHoverSync::handle);
     }
 }

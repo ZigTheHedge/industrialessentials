@@ -44,8 +44,6 @@ public class IEContent {
     public static final RegistryObject<Item> TIN_ORE_ITEM = ITEMS.register("tin_ore", () -> new BlockItem(TIN_ORE.get(), new Item.Properties().group(InitCommon.creativeTab)));
 
     //Machines
-    //public static final RegistryObject<ModelledBlock> CHASSIS = BLOCKS.register("chassis", ModelledBlock::new);
-    //public static final RegistryObject<Item> CHASSIS_ITEM = ITEMS.register("chassis", () -> new BlockItem(CHASSIS.get(), new Item.Properties().group(InitCommon.creativeTab)));
     public static final RegistryObject<CoalGenerator> COAL_GENERATOR = BLOCKS.register("coal_generator", CoalGenerator::new);
     public static final RegistryObject<Item> COAL_GENERATOR_ITEM = ITEMS.register("coal_generator", () -> new BlockItem(COAL_GENERATOR.get(), new Item.Properties().group(InitCommon.creativeTab)));
     public static final RegistryObject<Anvil> ANVIL = BLOCKS.register("anvil", Anvil::new);
