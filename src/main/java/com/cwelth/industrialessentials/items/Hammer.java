@@ -10,9 +10,7 @@ import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -97,6 +95,7 @@ public class Hammer extends PickaxeItem {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
+        /*
         if(entity.getEntityWorld().isRemote) return false;
         PlayerEntity player = (PlayerEntity)entity;
         World world = player.getEntityWorld();
@@ -106,12 +105,15 @@ public class Hammer extends PickaxeItem {
             world.playSound(player, result.getPos(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F);
             //Process recipe
             AnvilTE te = (AnvilTE)entity.getEntityWorld().getTileEntity(result.getPos());
-            if(te != null)
+            if(te != null && !te.getContainedItem().isEmpty())
             {
                 te.bash();
-                player.sendStatusMessage(new StringTextComponent("Hammering in progress: " + te.getProgress() ), false);
+                //player.sendStatusMessage(new StringTextComponent("Hammering in progress: " + te.getProgress() ), false);
+                return true;
             }
         }
+
+         */
         return false;
     }
 
