@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aa",
+    "aa",
+    "bb"
+  ],
+  "key": {
+    "a": {
+      "tag": "forge:ingots/iron"
+    },
+    "b": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "industrialessentials:metal_scissors"
+  }
+}

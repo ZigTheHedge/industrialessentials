@@ -17,7 +17,6 @@ import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
-import javax.management.remote.rmi._RMIConnection_Stub;
 
 public class AnvilTE extends TileEntity {
     private ItemStack containedItem = ItemStack.EMPTY;
@@ -117,7 +116,7 @@ public class AnvilTE extends TileEntity {
         } else
         {
             if(itemStack.isEmpty())
-                return null;
+                return ItemStack.EMPTY;
             else
             {
                 containedItem = itemStack.copy();

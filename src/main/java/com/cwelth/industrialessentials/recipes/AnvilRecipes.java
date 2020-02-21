@@ -15,8 +15,9 @@ public class AnvilRecipes {
 
     public void init()
     {
-        recipes.add(new AnvilRecipe("LLRLRRLLRLR", new ItemStack(Items.IRON_BARS, 32), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BLOCK))));
+        recipes.add(new AnvilRecipe(getRandomSequence(11), new ItemStack(Items.IRON_BARS, 32), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BLOCK))));
         addDustRecipes();
+        addPlateRecipes();
     }
 
     public AnvilRecipe getMatchedRecipe(ItemStack input)
@@ -25,6 +26,7 @@ public class AnvilRecipes {
         {
             if(recipe.match(input))
             {
+                recipe.hits = getRandomSequence(recipe.hits.length());
                 return recipe;
             }
         }
@@ -52,6 +54,20 @@ public class AnvilRecipes {
         recipes.add(new AnvilRecipe(getRandomSequence(10), new ItemStack(IEContent.SILVER_ORE_DUST.get(), 2), Ingredient.fromStacks(new ItemStack(IEContent.SILVER_ORE.get()))));
         recipes.add(new AnvilRecipe(getRandomSequence(14), new ItemStack(Items.DIAMOND, 2), Ingredient.fromStacks(new ItemStack(Blocks.DIAMOND_ORE))));
         recipes.add(new AnvilRecipe(getRandomSequence(14), new ItemStack(Items.EMERALD, 2), Ingredient.fromStacks(new ItemStack(Blocks.EMERALD_ORE))));
+        recipes.add(new AnvilRecipe(getRandomSequence(8), new ItemStack(Items.REDSTONE, 8), Ingredient.fromStacks(new ItemStack(Blocks.REDSTONE_ORE))));
+        recipes.add(new AnvilRecipe(getRandomSequence(8), new ItemStack(Items.LAPIS_LAZULI, 8), Ingredient.fromStacks(new ItemStack(Blocks.LAPIS_ORE))));
+    }
+
+    public void addPlateRecipes() {
+        recipes.add(new AnvilRecipe(getRandomSequence(11), new ItemStack(IEContent.IRON_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT))));
+        recipes.add(new AnvilRecipe(getRandomSequence(8), new ItemStack(IEContent.GOLD_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(Items.GOLD_INGOT))));
+        recipes.add(new AnvilRecipe(getRandomSequence(9), new ItemStack(IEContent.COPPER_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.COPPER_INGOT.get()))));
+        recipes.add(new AnvilRecipe(getRandomSequence(7), new ItemStack(IEContent.TIN_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.TIN_INGOT.get()))));
+        recipes.add(new AnvilRecipe(getRandomSequence(9), new ItemStack(IEContent.LEAD_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.LEAD_INGOT.get()))));
+        recipes.add(new AnvilRecipe(getRandomSequence(9), new ItemStack(IEContent.SILVER_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.SILVER_INGOT.get()))));
+        recipes.add(new AnvilRecipe(getRandomSequence(15), new ItemStack(IEContent.BRONZE_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.BRONZE_INGOT.get()))));
+        recipes.add(new AnvilRecipe(getRandomSequence(15), new ItemStack(IEContent.ELECTRUM_PLATE.get(), 1), Ingredient.fromStacks(new ItemStack(IEContent.ELECTRUM_INGOT.get()))));
+
     }
 }
 

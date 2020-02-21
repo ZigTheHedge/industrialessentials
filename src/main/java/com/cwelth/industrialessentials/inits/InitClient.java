@@ -1,7 +1,9 @@
 package com.cwelth.industrialessentials.inits;
 
 import com.cwelth.industrialessentials.IndustrialEssentials;
+import com.cwelth.industrialessentials.tileentities.containers.client.CoalGeneratorScreen;
 import com.cwelth.industrialessentials.tileentities.renderers.AnvilTESR;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -15,6 +17,7 @@ import static com.cwelth.industrialessentials.tileentities.renderers.UIUtils.UI_
 public class InitClient {
     public static void init(final FMLClientSetupEvent event) {
         AnvilTESR.register();
+        ScreenManager.registerFactory(IEContent.COAL_GENERATOR_CONTAINER.get(), CoalGeneratorScreen::new);
         //RenderTypeLookup.setRenderLayer(IEContent.COAL_GENERATOR.get(), RenderType.getCutoutMipped());
     }
 

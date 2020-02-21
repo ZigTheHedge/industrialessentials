@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.sun.javafx.geom.Vec3f;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
 
 public class UIUtils {
     public static final ResourceLocation UI_ATLAS = new ResourceLocation(IndustrialEssentials.MODID, "gui/ui");
@@ -22,8 +21,8 @@ public class UIUtils {
 
     public static void addQuad(IVertexBuilder builder, MatrixStack matrix, Vec3f topLeft, Vec3f bottomRight, TextureAtlasSprite atlas, float uMin, float vMin, float uMax, float vMax) {
         //Assume texture: 256x256
-        float wholeWidth = (atlas.getMaxU() - atlas.getMinU()) / 256F;
-        float wholeHeight = (atlas.getMaxV() - atlas.getMinV()) / 256F;
+        float wholeWidth = (atlas.getMaxU() - atlas.getMinU()) / atlas.getWidth();
+        float wholeHeight = (atlas.getMaxV() - atlas.getMinV()) / atlas.getHeight();
         uMin = atlas.getMinU() + wholeWidth * uMin;
         vMin = atlas.getMinV() + wholeHeight * vMin;
         uMax = uMin + wholeWidth * uMax;

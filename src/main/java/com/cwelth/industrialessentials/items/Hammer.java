@@ -21,7 +21,7 @@ public class Hammer extends PickaxeItem {
     public Hammer(IItemTier tier) {
         super(tier, 2, -2.8F, new Item.Properties()
                 .group(InitCommon.creativeTab)
-                .maxStackSize(1)
+                .maxDamage(tier.getMaxUses() * 2)
         );
     }
 

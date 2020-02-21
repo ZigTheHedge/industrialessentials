@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "industrialessentials:metal_scissors"
+    },
+    {
+      "tag": "forge:plates/copper"
+    }
+  ],
+  "result": {
+    "item": "industrialessentials:copper_wire",
+    "count": 4
+  }
+}

@@ -1,4 +1,13 @@
 {
+  "item.industrialessentials.iron_plate": "Iron Plate",
+  "item.industrialessentials.gold_plate": "Gold Plate",
+  "item.industrialessentials.silver_plate": "Silver Plate",
+  "item.industrialessentials.lead_plate": "Lead Plate",
+  "item.industrialessentials.copper_plate": "Copper Plate",
+  "item.industrialessentials.tin_plate": "Tin Plate",
+  "item.industrialessentials.bronze_plate": "Bronze Plate",
+  "item.industrialessentials.electrum_plate": "Electrum Plate",
+  
   "item.industrialessentials.iron_ore_dust": "Iron Dust",
   "item.industrialessentials.gold_ore_dust": "Gold Dust",
   "item.industrialessentials.silver_ore_dust": "Silver Dust",
@@ -23,6 +32,8 @@
   "item.industrialessentials.redstone_part": "Redstone Module",
   "item.industrialessentials.hammer_part": "Hammer",
   "item.industrialessentials.hammer_diamond_part": "Diamond Inlaid Hammer",
+  "item.industrialessentials.metal_scissors": "Metal Scissors",
+  "item.industrialessentials.copper_wire": "Copper Wire",
 
   "block.industrialessentials.silver_ore": "Silver Ore",
   "block.industrialessentials.lead_ore": "Lead Ore",

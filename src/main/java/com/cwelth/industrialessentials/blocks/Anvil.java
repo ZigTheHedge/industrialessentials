@@ -5,7 +5,7 @@ import com.cwelth.industrialessentials.tileentities.AnvilTE;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -60,12 +60,12 @@ public class Anvil extends ModelledBlock {
 
     @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-        super.onBlockClicked(state, worldIn, pos, player);
         if(!worldIn.isRemote)
         {
             AnvilTE te = (AnvilTE)worldIn.getTileEntity(pos);
-            if(te.hasValidRecipe() && (player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_PART.get() || player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_DIAMOND_PART.get()))
+            if(te.hasValidRecipe() && (player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_PART.get() || player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_DIAMOND_PART.get())) {
                 te.bash(Hand.MAIN_HAND);
+            }
         }
     }
 
@@ -88,9 +88,13 @@ public class Anvil extends ModelledBlock {
                     }
                 } else
                 {
-                    if(te.hasValidRecipe() && (player.getHeldItem(handIn).getItem() == IEContent.HAMMER_PART.get() || player.getHeldItem(handIn).getItem() == IEContent.HAMMER_DIAMOND_PART.get()))
+                    if(te.hasValidRecipe() && (player.getHeldItem(handIn).getItem() == IEContent.HAMMER_PART.get() || player.getHeldItem(handIn).getItem() == IEContent.HAMMER_DIAMOND_PART.get())) {
+                        player.getHeldItem(Hand.MAIN_HAND).damageItem(1, player, (p_220038_0_) -> {
+                            p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+                        });
                         te.bash(Hand.OFF_HAND);
-                    player.setHeldItem(handIn, te.interact(player.getHeldItem(handIn)));
+                    } else
+                        player.setHeldItem(handIn, te.interact(player.getHeldItem(handIn)));
                 }
 
             }
