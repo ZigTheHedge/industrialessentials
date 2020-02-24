@@ -142,7 +142,7 @@ public class AnvilTE extends TileEntity {
         }
     }
 
-    public void bash(Hand hand)
+    public boolean bash(Hand hand)
     {
         if(!containedItem.isEmpty())
         {
@@ -161,6 +161,9 @@ public class AnvilTE extends TileEntity {
                     else {
                         currentHits = 0;
                         world.playSound(null, getPos(), SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 1.0F, 0.6F);
+                        markDirty();
+                        NetworkingSetup.INSTANCE.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(getPos().getX(), getPos().getY(), getPos().getZ(), 16D, world.getDimension().getType())), new AnvilSync(currentHits, getPos()));
+                        return false;
                     }
                     if(currentHits == recipe.length())
                     {
@@ -172,9 +175,11 @@ public class AnvilTE extends TileEntity {
                     }
                     markDirty();
                     NetworkingSetup.INSTANCE.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(getPos().getX(), getPos().getY(), getPos().getZ(), 16D, world.getDimension().getType())), new AnvilSync(currentHits, getPos()));
+                    return true;
                 }
             }
         }
+        return true;
     }
 
     @Nullable

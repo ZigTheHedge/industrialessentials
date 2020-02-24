@@ -6,12 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +24,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class Anvil extends ModelledBlock {
     public static final BooleanProperty HAMMER_PRESENT = BooleanProperty.create("hammer_present");
@@ -58,13 +61,25 @@ public class Anvil extends ModelledBlock {
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
+    private void missClick(AnvilTE tileEntity, PlayerEntity player, World worldIn)
+    {
+        boolean itsHurt = worldIn.rand.nextInt(2) == 1;
+        if(itsHurt) player.attackEntityFrom(DamageSource.ANVIL, 1.0F);
+        else
+        {
+            InventoryHelper.spawnItemStack(worldIn, tileEntity.getPos().getX(), tileEntity.getPos().getY() + 1, tileEntity.getPos().getZ(), tileEntity.getContainedItem());
+            tileEntity.markDirty();
+            worldIn.notifyBlockUpdate(tileEntity.getPos(), worldIn.getBlockState(tileEntity.getPos()), worldIn.getBlockState(tileEntity.getPos()), 2);
+        }
+    }
+
     @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         if(!worldIn.isRemote)
         {
             AnvilTE te = (AnvilTE)worldIn.getTileEntity(pos);
             if(te.hasValidRecipe() && (player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_PART.get() || player.getHeldItem(Hand.MAIN_HAND).getItem() == IEContent.HAMMER_DIAMOND_PART.get())) {
-                te.bash(Hand.MAIN_HAND);
+                if(!te.bash(Hand.MAIN_HAND))missClick(te, player, worldIn);
             }
         }
     }
@@ -92,7 +107,7 @@ public class Anvil extends ModelledBlock {
                         player.getHeldItem(Hand.MAIN_HAND).damageItem(1, player, (p_220038_0_) -> {
                             p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
                         });
-                        te.bash(Hand.OFF_HAND);
+                        if(!te.bash(Hand.OFF_HAND))missClick(te, player, worldIn);
                     } else
                         player.setHeldItem(handIn, te.interact(player.getHeldItem(handIn)));
                 }
@@ -104,8 +119,6 @@ public class Anvil extends ModelledBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        VoxelShape retShape;
-
         if(state.get(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH)return NORTH;
         if(state.get(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST)return EAST;
         if(state.get(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH)return SOUTH;
